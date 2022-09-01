@@ -16,7 +16,9 @@ private:
     static std::mt19937 mt;
     static std::uniform_real_distribution<> randomGenerator;
 
+    //Constants
     static constexpr double bias = 1.0;
+    static constexpr double learningRate = 0.10;
 
     //Math helper methods
     double activation(double input) const;
@@ -27,6 +29,7 @@ public:
     Neuron(int numberOfWeights);
     Neuron(const Neuron& orig);
     ~Neuron();
+    //Randomizes the weights of the neuron (if it isnt an input neuron)
     void reinitializeWeights(int weightCount);
 
     //Member variables
@@ -34,15 +37,24 @@ public:
     std::vector<double> inboundWeights;
     double neuronValue;
 
-    //General Use methods
+    //Updates this neuron's value given the values of the previous layer
     void update(const Layer& previousLayer);
+
+    //Prints the neuron to console
     void printToConsole() const;
 
     //Learning methods
+    //Find the partial derivative of a Weight linking to this neuron
     double findCostOfWeight(const Layer& previousLayer ,int weightIndex, double derivativeOfCostRespectNeuron) const;
+    //Find the partial derivative of a neuron in a "back"/"previous" layer through this neuron
     double findCostOfPrevNeuron(const Layer& previousLayer, int neuronIndex, double derivativeOfCostRespectNeuron) const;
+    //Adjusts the weights of this neuron using the partial derivative of the cost function
     void adjustInboundWeights(const Layer& previousLayer, double derivativeOfCostRespectNeuron);
+    
+    //Find the error on this neuron
     double findError(double desiredValue) const;
+    //Find the derivative of the error on this neuron
+    double findErrorPrime(double desiredValue) const;
 };
 
 #endif

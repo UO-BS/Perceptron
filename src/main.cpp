@@ -38,19 +38,25 @@ int main() {
 
     while (true) {
         int trainingNum;
-        std::cout << "\nHow many random training examples would you like to give?: ";
+        int batchNum;
+        std::cout << "\nHow many random training examples would you like to give in each batch?: ";
+        std::cin >> batchNum;
+        std::cout << "\nHow many batches would you like to give?: ";
         std::cin >> trainingNum;
-        if (trainingNum==0) {
+        if (trainingNum==0 || batchNum==0) {
             break;
         }
-        for (int i=0;i<trainingNum;i++) {
-            double x = distribution(mt);
-            double y = distribution(mt);
-            std::vector<double> temp{x,y};
-            newNet.setInputNeurons(temp);
-            newNet.update();
-            newNet.train(std::vector<double> (1,(x*(m) + (scaledB) > y)?1.0:-1.0));
-            newNet.update();
+        for (int b=0;b<trainingNum;b++) {
+            int batchSize =10;
+            std::vector<std::vector<double>> inputs;
+            std::vector<std::vector<double>> outputs;
+            for (int batch=0;batch<batchSize;batch++) {
+                double x = distribution(mt);
+                double y = distribution(mt);
+                inputs.push_back({x,y});
+                outputs.push_back({(x*(m) + (scaledB) > y)?1.0:-1.0});
+            }
+            newNet.trainFromInputSet(inputs,outputs);
         }
         double perceptronM = (newNet.outputLayer.containedNeurons[0].inboundWeights[0] / -newNet.outputLayer.containedNeurons[0].inboundWeights[1]);
         double perceptronB = (newNet.outputLayer.containedNeurons[0].inboundWeights[2] / -newNet.outputLayer.containedNeurons[0].inboundWeights[1]);
