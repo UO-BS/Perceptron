@@ -18,9 +18,12 @@ public:
     Layer inputLayer;
     std::vector<Layer> hiddenLayers;
     Layer outputLayer;
+    double learningRate;
+    double momentumFactor;
 
     NeuralNetwork() = delete;
-    NeuralNetwork(int inputLayerSize, int outputLayerSize);
+    NeuralNetwork(int inputLayerSize, int outputLayerSize, double learningRate = 0.1, double momentumFactor = 0.0);
+    NeuralNetwork(const NeuralNetwork& orig);
     ~NeuralNetwork();
 
     //Adds a new hidden layer into the network (layer is added right before output layer)
@@ -43,6 +46,7 @@ public:
     //Trains the network using a training set
     void trainFromInputSet(const std::vector<std::vector<double>>& inputs, const std::vector<std::vector<double>>& desiredValues);
 
+    //Finds the average error on a training set
     double averageErrorOnSet(const std::vector<std::vector<double>>& inputs, const std::vector<std::vector<double>>& desiredValues);
 };
 

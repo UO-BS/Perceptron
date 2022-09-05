@@ -18,7 +18,6 @@ private:
 
     //Constants
     static constexpr double bias = 1.0;
-    static constexpr double learningRate = 0.10;
 
     //Math helper methods
     double activation(double input) const;
@@ -36,6 +35,7 @@ public:
     bool isInputNeuron;
     std::vector<double> inboundWeights;
     double neuronValue;
+    std::vector<double> lastWeightChange;
 
     //Updates this neuron's value given the values of the previous layer
     void update(const Layer& previousLayer);
@@ -49,7 +49,7 @@ public:
     //Find the partial derivative of a neuron in a "back"/"previous" layer through this neuron
     double findCostOfPrevNeuron(const Layer& previousLayer, int neuronIndex, double derivativeOfCostRespectNeuron) const;
     //Adjusts the weights of this neuron using the partial derivative of the cost function
-    void adjustInboundWeights(const Layer& previousLayer, double derivativeOfCostRespectNeuron);
+    void adjustInboundWeights(const Layer& previousLayer, double derivativeOfCostRespectNeuron, double learningRate, double momentumFactor);
     
     //Find the error on this neuron
     double findError(double desiredValue) const;

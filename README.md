@@ -1,5 +1,5 @@
 # Perceptron
-This project contains a Linear Perceptron.
+This project contains a Perceptron.
 
 To run: open bin, run main.exe
 

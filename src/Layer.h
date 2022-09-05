@@ -13,8 +13,8 @@ private:
 public:
     Layer() = delete;
     Layer(int layerSize); //For input layer
-    Layer(const Layer& previousLayer, int layerSize);
-    Layer(std::vector<Neuron> neurons);
+    Layer(const Layer& previousLayer, int layerSize); //For hidden and output layers
+    Layer(const Layer& orig);
     ~Layer();
 
     std::vector<Neuron> containedNeurons;
@@ -33,7 +33,7 @@ public:
     //Finds the cost of a "back"/"previous" neuron by summing the partial derivative through all neurons in this layer
     double findCostOfPrevNeuronForLayer(const Layer& previousLayer, int neuronIndex, std::vector<double> derivativeOfCostRespectNeurons) const;
     //Adjusts the weights of all neurons in this layer
-    void adjustContainedNeuronWeights(const Layer& previousLayer, std::vector<double> derivativeOfCostRespectNeurons);
+    void adjustContainedNeuronWeights(const Layer& previousLayer, std::vector<double> derivativeOfCostRespectNeurons, double learningRate, double momentumFactor);
 };
 
 #endif
