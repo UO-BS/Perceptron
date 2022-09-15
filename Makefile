@@ -21,7 +21,7 @@ all: $(BUILDDIR)/perceptron ;
 
 clean:
 	$(RM) $(call ChangeOSPath, $(BUILDDIR)/perceptron.exe)
-	$(RM) $(call ChangeOSPath, $(BUILDDIR)/main.o)
+	$(RM) $(call ChangeOSPath, $(OBJS))
 	
 $(BUILDDIR)/perceptron: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
