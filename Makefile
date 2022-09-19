@@ -2,7 +2,7 @@ CXX=g++
 CXXFLAGS= -g -Wall
 
 ifeq ($(OS), Windows_NT)
-	RM=del
+	RM=cmd /C del
 	ChangeOSPath = $(subst /,\,$1) 
 else
 	ifeq ($(shell uname), Linux)
@@ -20,8 +20,8 @@ OBJS=$(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SRCS))
 all: $(BUILDDIR)/perceptron ;
 
 clean:
-	$(RM) $(call ChangeOSPath, $(BUILDDIR)/perceptron.exe)
-	$(RM) $(call ChangeOSPath, $(OBJS))
+	$(RM) $(call ChangeOSPath,$(BUILDDIR)/perceptron.exe)
+	$(RM) $(call ChangeOSPath,$(OBJS))
 	
 $(BUILDDIR)/perceptron: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
