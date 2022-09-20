@@ -12,19 +12,24 @@ else
 endif
 
 SRCDIR=src
-BUILDDIR=bin
+OBJDIR=bin
 
 SRCS=$(SRCDIR)/main.cpp $(SRCDIR)/Layer.cpp $(SRCDIR)/NeuralNetwork.cpp $(SRCDIR)/Neuron.cpp
-OBJS=$(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SRCS))
+OBJS=$(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
-all: $(BUILDDIR)/perceptron ;
+all: $(OBJDIR)/perceptron ;
 
 clean:
-	$(RM) $(call ChangeOSPath,$(BUILDDIR)/perceptron.exe)
+	$(RM) $(call ChangeOSPath,$(OBJDIR)/perceptron.exe)
 	$(RM) $(call ChangeOSPath,$(OBJS))
 	
-$(BUILDDIR)/perceptron: $(OBJS)
+$(OBJDIR)/perceptron: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJS): | $(OBJDIR)
+
+$(OBJDIR):
+	mkdir $(OBJDIR)
